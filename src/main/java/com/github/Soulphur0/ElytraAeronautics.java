@@ -29,7 +29,7 @@ public class ElytraAeronautics implements ModInitializer {
     FlightConfig.readFromDisk();
 
     // ? Register config command.
-    mands.register();
+    EanCommands.register();
 
     // ? Register event handler.
     // ¿ On world/server join, sync the config, on dedicated servers reading from
