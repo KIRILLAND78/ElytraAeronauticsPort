@@ -1,19 +1,12 @@
-package com.github.Soulphur0.networking.server;
+package com.github.Soulphur0.networking.configSync;
 
-import com.github.Soulphur0.config.EanServerSettings;
 import com.github.Soulphur0.config.singletons.CloudConfig;
-import com.github.Soulphur0.config.singletons.FlightConfig;
-import com.github.Soulphur0.networking.client.EanClientSettingsPacket;
+import com.github.Soulphur0.networking.configChange.EanConfigChangePayload;
 
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.Context;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking.PlayPayloadHandler;
 //import com.github.Soulphur0.networking.server.EanServerSettingsPacketSerializer;
-import net.fabricmc.fabric.api.networking.v1.PacketSender;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.CustomPayload;
-import net.minecraft.util.Identifier;
+
 
 /**
  * Class that handles incoming packets from the server.<br>
@@ -22,11 +15,11 @@ import net.minecraft.util.Identifier;
  * other purposes further on.<br>
  * <br>
  */
-public class EanClientToServerPacketHandler implements PlayPayloadHandler<EanClientSettingsPacket> {
+public class EanConfigSyncClientPayloadHandler implements PlayPayloadHandler<EanConfigChangePayload> {
 
   @Override
-  public void receive(EanClientSettingsPacket payload,
-      Context context) {
+  public void receive(EanConfigChangePayload payload,
+                      Context context) {
     switch (payload.getClientSettings().settingValues.get(0)) {
       case "generalCloudConfig" ->
         CloudConfig.updateGeneralConfig(

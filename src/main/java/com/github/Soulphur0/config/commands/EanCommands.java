@@ -1,9 +1,9 @@
 package com.github.Soulphur0.config.commands;
 
-import com.github.Soulphur0.config.EanClientSettings;
+import com.github.Soulphur0.config.EanConfigChange;
 import com.github.Soulphur0.config.singletons.CloudConfig;
 import com.github.Soulphur0.config.singletons.FlightConfig;
-import com.github.Soulphur0.networking.server.EanServerPacketSender;
+import com.github.Soulphur0.networking.configSync.EanServerPayloadSender;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
@@ -468,72 +468,72 @@ public class EanCommands {
     // $ Cloud general configuration
     private static void setUseEanCloudRendering(ServerPlayerEntity executor, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor, new EanClientSettings("generalCloudConfig","useEanCloudRendering", value));
+        EanServerPayloadSender.sendClientConfig(executor, new EanConfigChange("generalCloudConfig","useEanCloudRendering", value));
     }
 
     private static void setCloudLayerAmount(ServerPlayerEntity executor, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor, new EanClientSettings("generalCloudConfig","setCloudLayerAmount", value));
+        EanServerPayloadSender.sendClientConfig(executor, new EanConfigChange("generalCloudConfig","setCloudLayerAmount", value));
     }
 
     private static void loadPreset(ServerPlayerEntity executor, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor, new EanClientSettings("generalCloudConfig","loadPreset", value));
+        EanServerPayloadSender.sendClientConfig(executor, new EanConfigChange("generalCloudConfig","loadPreset", value));
     }
 
     // $ Cloud layer configuration
     private static void setLayerAltitude(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","altitude", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","altitude", layerNumberArg, value));
     }
 
     private static void setLayerCloudType(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","cloudType", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","cloudType", layerNumberArg, value));
     }
 
     private static void setLayerVerticalRenderDistance(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","verticalRenderDistance", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","verticalRenderDistance", layerNumberArg, value));
     }
 
     private static void setLayerHorizontalRenderDistance(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","horizontalRenderDistance", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","horizontalRenderDistance", layerNumberArg, value));
     }
 
     private static void setLodRenderDistance(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","lodRenderDistance", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","lodRenderDistance", layerNumberArg, value));
     }
 
     private static void setLayerCloudThickness(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","thickness", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","thickness", layerNumberArg, value));
     }
 
     private static void setCloudColor(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","color", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","color", layerNumberArg, value));
     }
 
     private static void setCloudOpacity(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","opacity", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","opacity", layerNumberArg, value));
     }
 
     private static void setShading(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","shading", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","shading", layerNumberArg, value));
     }
 
     private static void setCloudSpeed(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","speed", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","speed", layerNumberArg, value));
     }
 
     private static void setSkyEffects(ServerPlayerEntity executor, String layerNumberArg, String value) {
         // Send config change to the command executor's client.
-        EanServerPacketSender.sendClientConfig(executor,new EanClientSettings("cloudLayerConfig","skyEffects", layerNumberArg, value));
+        EanServerPayloadSender.sendClientConfig(executor,new EanConfigChange("cloudLayerConfig","skyEffects", layerNumberArg, value));
     }
 }

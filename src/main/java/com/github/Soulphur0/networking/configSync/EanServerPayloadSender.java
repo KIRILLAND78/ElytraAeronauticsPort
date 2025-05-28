@@ -1,14 +1,11 @@
-package com.github.Soulphur0.networking.server;
+package com.github.Soulphur0.networking.configSync;
 
-import com.github.Soulphur0.ElytraAeronautics;
-import com.github.Soulphur0.config.EanClientSettings;
+import com.github.Soulphur0.config.EanConfigChange;
 import com.github.Soulphur0.config.EanServerSettings;
-import com.github.Soulphur0.networking.client.EanClientSettingsPacket;
-import io.netty.buffer.Unpooled;
+import com.github.Soulphur0.networking.configChange.EanConfigChangePayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 
 /**
@@ -18,7 +15,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
  * client.<br>
  * <br>
  */
-public class EanServerPacketSender {
+public class EanServerPayloadSender {
 
   // ? Sync all clients' config with the server.
   // ¿ Used when the server config is changed by an operator.
@@ -32,10 +29,10 @@ public class EanServerPacketSender {
     // EanServerSettings()));
 
     // + Send sync order to all connected clients.
-    ServerPlayNetworking.send((ServerPlayerEntity) user, new EanServerSettingsPacket(new EanServerSettings()));
+    ServerPlayNetworking.send((ServerPlayerEntity) user, new EanConfigSyncPayload(new EanServerSettings()));
     if (user.getServer() != null) {
       for (ServerPlayerEntity serverPlayer : PlayerLookup.all(user.getServer())) {
-        ServerPlayNetworking.send(serverPlayer, new EanServerSettingsPacket(new EanServerSettings()));
+        ServerPlayNetworking.send(serverPlayer, new EanConfigSyncPayload(new EanServerSettings()));
       }
     }
   }
@@ -52,7 +49,7 @@ public class EanServerPacketSender {
     // new EanServerSettings()));
 
     // + Send sync order to the joined player.
-    ServerPlayNetworking.send((ServerPlayerEntity) user, new EanServerSettingsPacket(new EanServerSettings()));
+    ServerPlayNetworking.send((ServerPlayerEntity) user, new EanConfigSyncPayload(new EanServerSettings()));
   }
 
   // ? Send config written in command to the client.
@@ -61,7 +58,7 @@ public class EanServerPacketSender {
   // ¿ A whole custom packet is not needed because client config will always only
   // need to get one value read, while server config needs all values to be read
   // at once when joining a server.
-  public static void sendClientConfig(ServerPlayerEntity user, EanClientSettings setting) {
+  public static void sendClientConfig(ServerPlayerEntity user, EanConfigChange setting) {
     if (user.getWorld().isClient())
       return;
 
@@ -71,6 +68,6 @@ public class EanServerPacketSender {
     // EanClientSettingsPacket(setting));
 
     // + Send packet to the client.
-    ServerPlayNetworking.send(user, new EanClientSettingsPacket(setting));
+    ServerPlayNetworking.send(user, new EanConfigChangePayload(setting));
   }
 }
