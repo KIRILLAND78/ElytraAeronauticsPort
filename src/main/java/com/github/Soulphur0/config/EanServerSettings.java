@@ -1,9 +1,7 @@
 package com.github.Soulphur0.config;
 
 import com.github.Soulphur0.config.singletons.FlightConfig;
-import com.github.Soulphur0.networking.server.EanServerSettingsPacket;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.github.Soulphur0.networking.configSync.EanConfigSyncPayload;
 
 //import com.github.Soulphur0.networking.server.EanServerSettingsPacketSerializer;
 import net.minecraft.network.PacketByteBuf;
@@ -16,7 +14,7 @@ import net.minecraft.network.PacketByteBuf;
  * to be sent to a client.<br>
  * <br>
  * 
- * @see EanServerSettingsPacket
+ * @see EanConfigSyncPayload
  * @see EanServerSettingsPacketSerializer
  */
 public class EanServerSettings {

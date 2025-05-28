@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.github.Soulphur0.networking.client.EanClientSettingsPacket;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.github.Soulphur0.networking.configChange.EanConfigChangePayload;
 
 //import com.github.Soulphur0.networking.client.EanClientSettingsPacketSerializer;
 import net.minecraft.network.PacketByteBuf;
@@ -20,10 +18,9 @@ import net.minecraft.network.PacketByteBuf;
  * packed to be sent from the server to the client.<br>
  * <br>
  * 
- * @see EanClientSettingsPacket
- * @see EanClientSettingsPacketSerializer
+ * @see EanConfigChangePayload
  */
-public class EanClientSettings {
+public class EanConfigChange {
   public List<String> settingValues;
 
   // ? Constructor with arbitrary number of parameters.
@@ -31,11 +28,11 @@ public class EanClientSettings {
   // the setting in particular.
   // ¿ The EanClientPacketHandler class redirects to the setting processing method
   // for each client setting in its corresponding class.
-  public EanClientSettings(String... values) {
+  public EanConfigChange(String... values) {
     settingValues = Arrays.asList(values);
   }
 
-  public EanClientSettings(List<String> values) {
+  public EanConfigChange(List<String> values) {
     this.settingValues = values;
   }
 
@@ -51,7 +48,7 @@ public class EanClientSettings {
 
   // ? Read from the packet buf all the values of the setting sequentially.
   // ¿ Used to rebuild this class object from a received packet.
-  public static EanClientSettings createFromBuffer(PacketByteBuf buf) {
+  public static EanConfigChange createFromBuffer(PacketByteBuf buf) {
     int count = buf.readVarInt();
     List<String> settingValues = new ArrayList<>(count);
 
@@ -59,6 +56,6 @@ public class EanClientSettings {
       settingValues.add(buf.readString());
     }
 
-    return new EanClientSettings(settingValues);
+    return new EanConfigChange(settingValues);
   }
 }

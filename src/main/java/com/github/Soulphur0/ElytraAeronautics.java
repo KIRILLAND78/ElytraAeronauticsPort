@@ -2,9 +2,9 @@ package com.github.Soulphur0;
 
 import com.github.Soulphur0.config.commands.EanCommands;
 import com.github.Soulphur0.config.singletons.FlightConfig;
-import com.github.Soulphur0.networking.client.EanClientSettingsPacket;
-import com.github.Soulphur0.networking.server.EanServerPacketSender;
-import com.github.Soulphur0.networking.server.EanServerSettingsPacket;
+import com.github.Soulphur0.networking.configChange.EanConfigChangePayload;
+import com.github.Soulphur0.networking.configSync.EanServerPayloadSender;
+import com.github.Soulphur0.networking.configSync.EanConfigSyncPayload;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
@@ -18,22 +18,18 @@ public class ElytraAeronautics implements ModInitializer {
 
   public static final Logger LOGGER = LogManager.getLogger("ElytraAeronautics");
 
-  public static final Identifier CONFIG_FULL_SYNC_PACKET_ID = new Identifier("ean", "sync_config");
-  public static final Identifier CLIENT_CONFIG_CHANGE_PACKET_ID = new Identifier("ean", "client_config");
-
-  public static final CustomPayload.Id<EanServerSettingsPacket> CONFIG_FULL_SYNC_PAYLOAD_ID = new CustomPayload.Id<EanServerSettingsPacket>(
-      new Identifier("ean", "sync_config"));
-  public static final CustomPayload.Id<EanClientSettingsPacket> CLIENT_CONFIG_CHANGE_PAYLOAD_ID = new CustomPayload.Id<EanClientSettingsPacket>(
-      new Identifier("ean", "client_config"));
+  public static final CustomPayload.Id<EanConfigSyncPayload> CONFIG_FULL_SYNC_PAYLOAD_ID = new CustomPayload.Id<EanConfigSyncPayload>(
+      Identifier.of("ean", "sync_config"));
+  public static final CustomPayload.Id<EanConfigChangePayload> CONFIG_CHANGE_PAYLOAD_ID = new CustomPayload.Id<EanConfigChangePayload>(
+      Identifier.of("ean", "client_config"));
 
   @Override
   public void onInitialize() {
-    // ? Read the config data saved in disk directly to config instance upon
-    // initialization.
+    // ? Read the config data saved in disk di // initialization.
     FlightConfig.readFromDisk();
 
     // ? Register config command.
-    EanCommands.register();
+    mands.register();
 
     // ? Register event handler.
     // ¿ On world/server join, sync the config, on dedicated servers reading from
@@ -42,10 +38,10 @@ public class ElytraAeronautics implements ModInitializer {
       ServerPlayerEntity player = (ServerPlayerEntity) handler.player;
 
       if (server.isDedicated())
-        EanServerPacketSender.syncClientConfigWithServer(player);
+        EanServerPayloadSender.syncClientConfigWithServer(player);
       else {
         FlightConfig.readFromDisk();
-        EanServerPacketSender.syncClientConfigWithServer(player);
+        EanServerPayloadSender.syncClientConfigWithServer(player);
       }
     });
 
