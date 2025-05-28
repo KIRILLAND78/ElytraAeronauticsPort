@@ -11,15 +11,22 @@ import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements SynchronousResourceReloader, AutoCloseable {
+  @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;FDDD)V"))
+  private void ean_renderClouds(WorldRenderer instance,
+      MatrixStack matrices,
+      Matrix4f matrix1,
+      Matrix4f matrix2,
+      float tickDelta,
+      double x,
+      double y,
+      double z,
+      Operation<Void> original) {
+    if (CloudConfig.getOrCreateInstance().isUseEanClouds())
+      EanCloudRenderBehaviour.ean_renderClouds(instance, matrices, matrix2, matrix1, tickDelta, x, y, z);
+    else
+      original.call(instance, matrices, matrix1, matrix2, tickDelta, x, y, z);
+  }
 
-    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;FDDD)V", ordinal = 1))
-    private void ean_renderClouds(WorldRenderer instance, MatrixStack matrices, Matrix4f positionMatrix, float tickDelta, double x, double y, double z, Operation<Void> original){
-        if (CloudConfig.getOrCreateInstance().isUseEanClouds())
-            EanCloudRenderBehaviour.ean_renderClouds(instance, matrices, positionMatrix, tickDelta, x, y, z);
-        else
-            original.call(instance, matrices, positionMatrix, tickDelta, x, y, z);
-    }
 }
