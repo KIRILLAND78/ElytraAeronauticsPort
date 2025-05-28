@@ -18,13 +18,10 @@ public class ElytraAeronautics implements ModInitializer {
 
   public static final Logger LOGGER = LogManager.getLogger("ElytraAeronautics");
 
-  public static final Identifier CONFIG_FULL_SYNC_PACKET_ID = new Identifier("ean", "sync_config");
-  public static final Identifier CLIENT_CONFIG_CHANGE_PACKET_ID = new Identifier("ean", "client_config");
-
   public static final CustomPayload.Id<EanServerSettingsPacket> CONFIG_FULL_SYNC_PAYLOAD_ID = new CustomPayload.Id<EanServerSettingsPacket>(
-      new Identifier("ean", "sync_config"));
+      Identifier.of("ean", "sync_config"));
   public static final CustomPayload.Id<EanClientSettingsPacket> CLIENT_CONFIG_CHANGE_PAYLOAD_ID = new CustomPayload.Id<EanClientSettingsPacket>(
-      new Identifier("ean", "client_config"));
+          Identifier.of("ean", "client_config"));
 
   @Override
   public void onInitialize() {

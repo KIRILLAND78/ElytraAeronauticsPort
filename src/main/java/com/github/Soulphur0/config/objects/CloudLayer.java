@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BuiltBuffer;
 
 @Environment(EnvType.CLIENT)
 public class CloudLayer {
@@ -37,7 +38,7 @@ public class CloudLayer {
     private boolean skyEffects = true;
 
     // = Contextual attributes for rendering
-    private BufferBuilder.BuiltBuffer vertexGeometry; // The geometry of the processed cloud layer to later render.
+    private BuiltBuffer vertexGeometry; // The geometry of the processed cloud layer to later render.
     private double renderAltitude; // The 'p' parameter of the original rendering code, it stores the exact render altitude. Which is the remainder of cloud render altitude when measured in cloud thickness.
     private float displacement;
     private boolean withinRenderDistance;
@@ -130,11 +131,11 @@ public class CloudLayer {
         this.shading = shading;
     }
 
-    public BufferBuilder.BuiltBuffer getVertexGeometry() {
+    public BuiltBuffer getVertexGeometry() {
         return vertexGeometry;
     }
 
-    public void setVertexGeometry(BufferBuilder.BuiltBuffer vertexGeometry) {
+    public void setVertexGeometry(BuiltBuffer vertexGeometry) {
         this.vertexGeometry = vertexGeometry;
     }
 
