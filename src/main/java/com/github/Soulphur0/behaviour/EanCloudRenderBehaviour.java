@@ -27,6 +27,15 @@ public class EanCloudRenderBehaviour {
   // $ Variables
   private static final Identifier CLOUDS = Identifier.ofVanilla("textures/environment/clouds.png");
 
+  public static void ean_renderClouds2(WorldRenderer instance, Matrix4f projectionMatrix,
+                                      Matrix4f viewMatrix,
+                                      float tickDelta, Vec3d camPos) {
+
+    WorldRendererAccessors worldRenderer = ((WorldRendererAccessors) instance);
+    CloudRendererAccessors cloudRenderer = ((CloudRendererAccessors) instance.getCloudRenderer());
+    cloudRenderer.renderClouds(Color.white.getRGB(), CloudRenderMode.FANCY, 255, new Matrix4f(projectionMatrix).mul(viewMatrix), projectionMatrix, camPos, tickDelta);
+    cloudRenderer.renderClouds(Color.white.getRGB(), CloudRenderMode.FANCY, 455, new Matrix4f(projectionMatrix).mul(viewMatrix), projectionMatrix, camPos, tickDelta);
+  }
   public static void ean_renderClouds(WorldRenderer instance, MatrixStack matrices, Matrix4f projectionMatrix,
       Matrix4f viewMatrix,
       float tickDelta, double camPosX, double camPosY, double camPosZ) {
