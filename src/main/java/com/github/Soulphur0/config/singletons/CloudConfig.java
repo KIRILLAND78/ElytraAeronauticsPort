@@ -59,13 +59,13 @@ public class CloudConfig {
         case "useEanCloudRendering" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.useEanCloudRendering());
+            player.sendMessage(EanCommandsHelp.useEanCloudRendering(), true);
             return;
           }
 
           // _ Validate value
           if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
-            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
             return;
           }
 
@@ -76,12 +76,12 @@ public class CloudConfig {
           // + Notify player.
           String notification = (useEanCloudRendering) ? "Elytra Aeronautics cloud rendering is now enabled."
               : "Elytra Aeronautics cloud rendering is now disabled.";
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "setCloudLayerAmount" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.setCloudLayerAmount());
+            player.sendMessage(EanCommandsHelp.setCloudLayerAmount(), true);
             return;
           }
 
@@ -91,18 +91,18 @@ public class CloudConfig {
             amount = Integer.parseInt(value);
             CloudConfig.getOrCreateInstance().setNumberOfLayers(amount);
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
           String notification = "Set number of cloud layers to " + amount;
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "loadPreset" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.loadPreset());
+            player.sendMessage(EanCommandsHelp.loadPreset(), true);
             return;
           }
 
@@ -119,7 +119,7 @@ public class CloudConfig {
 
           // + Notify player.
           String notification = "Loaded the " + value + " cloud preset.";
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
       }
     }
@@ -137,7 +137,7 @@ public class CloudConfig {
         case "altitude" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.setCloudLayerAmount());
+            player.sendMessage(EanCommandsHelp.setCloudLayerAmount(), true);
             return;
           }
 
@@ -158,20 +158,20 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getAltitude();
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "cloudType" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.cloudType());
+            player.sendMessage(EanCommandsHelp.cloudType(), true);
             return;
           }
 
@@ -196,20 +196,20 @@ public class CloudConfig {
             }
 
           } catch (IllegalArgumentException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "verticalRenderDistance" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.verticalRenderDistance());
+            player.sendMessage(EanCommandsHelp.verticalRenderDistance(), true);
             return;
           }
 
@@ -233,20 +233,20 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getVerticalRenderDistance() + " blocks.";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "horizontalRenderDistance" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.horizontalRenderDistance());
+            player.sendMessage(EanCommandsHelp.horizontalRenderDistance(), true);
             return;
           }
 
@@ -270,20 +270,20 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getHorizontalRenderDistance() + " chunks.";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "lodRenderDistance" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.lodRenderDistance());
+            player.sendMessage(EanCommandsHelp.lodRenderDistance(), true);
             return;
           }
 
@@ -308,20 +308,20 @@ public class CloudConfig {
             }
 
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "thickness" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.thickness());
+            player.sendMessage(EanCommandsHelp.thickness(), true);
             return;
           }
 
@@ -345,20 +345,20 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getCloudThickness() + " blocks.";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "color" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.color());
+            player.sendMessage(EanCommandsHelp.color(), true);
             return;
           }
 
@@ -381,20 +381,20 @@ public class CloudConfig {
               notification = "Set cloud color of layer " + layerNumber + " to " + value + ".";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "opacity" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.opacity());
+            player.sendMessage(EanCommandsHelp.opacity(), true);
             return;
           }
 
@@ -418,26 +418,26 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getCloudOpacity() + ".";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "shading" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.shading());
+            player.sendMessage(EanCommandsHelp.shading(), true);
             return;
           }
 
           // _ Validate value
           if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
-            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
             return;
           }
 
@@ -461,20 +461,20 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].isShading() + ".";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "speed" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.speed());
+            player.sendMessage(EanCommandsHelp.speed(), true);
             return;
           }
 
@@ -498,26 +498,26 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getCloudSpeed() + " speed.";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
         case "skyEffects" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.skyEffects());
+            player.sendMessage(EanCommandsHelp.skyEffects(), true);
             return;
           }
 
           // _ Validate value
           if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
-            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
             return;
           }
 
@@ -541,15 +541,15 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].isSkyEffects() + ".";
             }
           } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
           } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED));
+            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
             return;
           }
 
           // + Notify player.
-          player.sendMessage(Text.of(notification));
+          player.sendMessage(Text.of(notification), true);
         }
       }
 

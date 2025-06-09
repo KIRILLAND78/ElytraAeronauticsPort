@@ -3,6 +3,7 @@ package com.github.Soulphur0.behaviour;
 
 import com.github.Soulphur0.config.objects.CloudLayer;
 import com.github.Soulphur0.config.singletons.CloudConfig;
+import com.github.Soulphur0.mixin.CloudRendererAccessors;
 import com.github.Soulphur0.mixin.WorldRendererAccessors;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,6 +19,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 
+import java.awt.*;
+
 @Environment(EnvType.CLIENT)
 public class EanCloudRenderBehaviour {
 
@@ -27,8 +30,12 @@ public class EanCloudRenderBehaviour {
   public static void ean_renderClouds(WorldRenderer instance, MatrixStack matrices, Matrix4f projectionMatrix,
       Matrix4f viewMatrix,
       float tickDelta, double camPosX, double camPosY, double camPosZ) {
-    WorldRendererAccessors worldRenderer = ((WorldRendererAccessors) instance);
 
+    WorldRendererAccessors worldRenderer = ((WorldRendererAccessors) instance);
+    CloudRendererAccessors cloudRenderer = ((CloudRendererAccessors) instance.getCloudRenderer());
+    cloudRenderer.renderClouds(Color.white.getRGB(), CloudRenderMode.FANCY, 255, new Matrix4f(projectionMatrix).mul(viewMatrix), projectionMatrix, new Vec3d(camPosX, camPosY, camPosZ), tickDelta);
+    cloudRenderer.renderClouds(Color.white.getRGB(), CloudRenderMode.FANCY, 455, new Matrix4f(projectionMatrix).mul(viewMatrix), projectionMatrix, new Vec3d(camPosX, camPosY, camPosZ), tickDelta);
+  /*
     // + Cloud rendering parameters.
     RenderSystem.disableCull();
     RenderSystem.enableBlend();
@@ -38,10 +45,10 @@ public class EanCloudRenderBehaviour {
     RenderSystem.depthMask(true);
 
     // + Clear WorldRenderer's cloud buffer.
-    if (worldRenderer.getCloudsDirty()) {
-      worldRenderer.setCloudsDirty(false);
-      if (worldRenderer.getCloudsBuffer() != null) {
-        worldRenderer.getCloudsBuffer().close();
+    if (cloudRenderer.getCloudsDirty()) {
+      cloudRenderer.setCloudsDirty(false);
+      if (cloudRenderer.getCloudsBuffer() != null) {
+        cloudRenderer.getCloudsBuffer().close();
       }
     }
 
@@ -80,7 +87,7 @@ public class EanCloudRenderBehaviour {
       int blue = cloudColor & 0xFF;
 
       Vec3d configuredCloudColorVec3d = new Vec3d(red / 255.0, green / 255.0, blue / 255.0);
-      worldRenderer.setCloudsBuffer(new VertexBuffer(VertexBuffer.Usage.STATIC));
+      cloudRenderer.setCloudsBuffer(new VertexBuffer(VertexBuffer.Usage.STATIC));
 
       // ; Speed of the cloud layer
       double k = (double) (((float) worldRenderer.getTicks() + tickDelta) * 0.03F * layer.getCloudSpeed());
@@ -112,7 +119,7 @@ public class EanCloudRenderBehaviour {
       // allowing weather/night effect to apply to the clouds
       Vec3d colorVec3d;
       if (layer.isSkyEffects()) {
-        Vec3d vec3d = worldRenderer.getWorld().getCloudsColor(tickDelta);
+        Vec3d vec3d = Vec3d.unpackRgb(worldRenderer.getWorld().getCloudsColor(tickDelta));
         colorVec3d = vec3d.multiply(configuredCloudColorVec3d);
       } else {
         colorVec3d = configuredCloudColorVec3d;
@@ -136,16 +143,16 @@ public class EanCloudRenderBehaviour {
       int t = (int) Math.floor(n);
 
       // ? Mark clouds as dirty
-      if (r != worldRenderer.getLastCloudsBlockX() || s != worldRenderer.getLastCloudsBlockY()
-          || t != worldRenderer.getLastCloudsBlockZ()
-          || worldRenderer.getClient().options.getCloudRenderModeValue() != worldRenderer.getLastCloudRenderMode()
-          || worldRenderer.getLastCloudsColor().squaredDistanceTo(configuredCloudColorVec3d) > 2.0E-4D) {
-        worldRenderer.setLastCloudsBlockX(r);
-        worldRenderer.setLastCloudsBlockY(s);
-        worldRenderer.setLastCloudsBlockZ(t);
-        worldRenderer.setLastCloudsColor(configuredCloudColorVec3d);
-        worldRenderer.setLastCloudRenderMode(worldRenderer.getClient().options.getCloudRenderModeValue());
-        worldRenderer.setCloudsDirty(true);
+      if (r != cloudRenderer.getLastCloudsBlockX() || s != cloudRenderer.getLastCloudsBlockY()
+          || t != cloudRenderer.getLastCloudsBlockZ()
+          || cloudRenderer.getClient().options.getCloudRenderModeValue() != cloudRenderer.getLastCloudRenderMode()
+          || cloudRenderer.getLastCloudsColor().squaredDistanceTo(configuredCloudColorVec3d) > 2.0E-4D) {
+        cloudRenderer.setLastCloudsBlockX(r);
+        cloudRenderer.setLastCloudsBlockY(s);
+        cloudRenderer.setLastCloudsBlockZ(t);
+        cloudRenderer.setLastCloudsColor(configuredCloudColorVec3d);
+        cloudRenderer.setLastCloudRenderMode(worldRenderer.getClient().options.getCloudRenderModeValue());
+        cloudRenderer.setCloudsDirty(true);
       }
     }
 
@@ -159,8 +166,8 @@ public class EanCloudRenderBehaviour {
       // < Most likely because they are cleared off by the garbage collector, but I
       // don't know that much about OpenGL ATM.
       if (layer.getVertexGeometry() != null) {
-        worldRenderer.getCloudsBuffer().bind();
-        worldRenderer.getCloudsBuffer().upload(layer.getVertexGeometry());
+        cloudRenderer.getCloudsBuffer().bind();
+        cloudRenderer.getCloudsBuffer().upload(layer.getVertexGeometry());
         VertexBuffer.unbind();
 
         // * Get shader, texture and background to draw with cloud geometry.
@@ -182,9 +189,9 @@ public class EanCloudRenderBehaviour {
         matrices.translate(-layer.getTranslationX(), layer.getRenderAltitude(), -layer.getTranslationZ());
 
         // * Render clouds
-        if (worldRenderer.getCloudsBuffer() != null) {
-          worldRenderer.getCloudsBuffer().bind();
-          int u = worldRenderer.getLastCloudRenderMode() == CloudRenderMode.FANCY ? 0 : 1;
+        if (cloudRenderer.getCloudsBuffer() != null) {
+          cloudRenderer.getCloudsBuffer().bind();
+          int u = cloudRenderer.getLastCloudRenderMode() == CloudRenderMode.FANCY ? 0 : 1;
 
           for (int v = u; v < 2; ++v) {
             if (!layer.isShading()) {
@@ -198,7 +205,7 @@ public class EanCloudRenderBehaviour {
             ShaderProgram shaderProgram = RenderSystem.getShader();
             Matrix4f modelViewMatrix = new Matrix4f(viewMatrix);
             modelViewMatrix.mul(matrices.peek().getPositionMatrix());
-            worldRenderer.getCloudsBuffer().draw(modelViewMatrix, projectionMatrix, shaderProgram);
+            cloudRenderer.getCloudsBuffer().draw(modelViewMatrix, projectionMatrix, shaderProgram);
           }
 
           VertexBuffer.unbind();
@@ -212,12 +219,12 @@ public class EanCloudRenderBehaviour {
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
     RenderSystem.enableCull();
     RenderSystem.disableBlend();
-
+  */
   }
 
   private static BuiltBuffer ean_preProcessCloudLayerGeometry(CloudLayer layer,
                                                               BufferBuilder bufferBuilder, double camX, double camY, double camZ, Vec3d color) {
-    RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
+    //RenderSystem.setShader(GameRenderer::getPositionTexColorProgram);
 
     // + Draw cloud layer into the buffer.
     ean_buildCloudLayerGeometry(layer, bufferBuilder, camX, camY, camZ, color);
