@@ -243,43 +243,6 @@ public class CloudConfig {
           // + Notify player.
           player.sendMessage(Text.of(notification), true);
         }
-        case "horizontalRenderDistance" -> {
-          // _ Print help if the value was -help.
-          if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.horizontalRenderDistance(), true);
-            return;
-          }
-
-          // + Set new config value.
-          String notification;
-          try {
-            int horizontalRenderDistance = Integer.parseInt(value);
-
-            if (layerNumber.equals("all")) {
-              for (CloudLayer cloudLayer : CloudConfig.cloudLayers) {
-                cloudLayer.setHorizontalRenderDistance(horizontalRenderDistance);
-              }
-              CloudConfig.writeToDisk();
-              notification = "Set horizontal render distance of all layers to " + horizontalRenderDistance + " chunks.";
-            } else {
-              int layer = Integer.parseInt(layerNumber);
-              CloudConfig.cloudLayers[layer - 1].setHorizontalRenderDistance(horizontalRenderDistance);
-
-              CloudConfig.writeToDisk();
-              notification = "Set horizontal render distance of layer " + layerNumber + " to "
-                  + CloudConfig.cloudLayers[layer - 1].getHorizontalRenderDistance() + " chunks.";
-            }
-          } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
-            return;
-          } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
-            return;
-          }
-
-          // + Notify player.
-          player.sendMessage(Text.of(notification), true);
-        }
         case "lodRenderDistance" -> {
           // _ Print help if the value was -help.
           if (value.equals("-help")) {
@@ -307,43 +270,6 @@ public class CloudConfig {
                   + CloudConfig.cloudLayers[layer - 1].getLodRenderDistance() + " blocks.";
             }
 
-          } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
-            return;
-          } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
-            return;
-          }
-
-          // + Notify player.
-          player.sendMessage(Text.of(notification), true);
-        }
-        case "thickness" -> {
-          // _ Print help if the value was -help.
-          if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.thickness(), true);
-            return;
-          }
-
-          // + Set new config value.
-          String notification;
-          try {
-            float cloudThickness = Float.parseFloat(value);
-
-            if (layerNumber.equals("all")) {
-              for (CloudLayer cloudLayer : CloudConfig.cloudLayers) {
-                cloudLayer.setCloudThickness(cloudThickness);
-              }
-              CloudConfig.writeToDisk();
-              notification = "Set cloud thickness of all layers to " + cloudThickness + " blocks.";
-            } else {
-              int layer = Integer.parseInt(layerNumber);
-              CloudConfig.cloudLayers[layer - 1].setCloudThickness(cloudThickness);
-
-              CloudConfig.writeToDisk();
-              notification = "Set cloud thickness of layer " + layerNumber + " to "
-                  + CloudConfig.cloudLayers[layer - 1].getCloudThickness() + " blocks.";
-            }
           } catch (NumberFormatException e) {
             player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;
@@ -458,7 +384,7 @@ public class CloudConfig {
 
               CloudConfig.writeToDisk();
               notification = "Set shading of layer " + layerNumber + " to "
-                  + CloudConfig.cloudLayers[layer - 1].isShading() + ".";
+                      + CloudConfig.cloudLayers[layer - 1].isShading() + ".";
             }
           } catch (NumberFormatException e) {
             player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
@@ -496,49 +422,6 @@ public class CloudConfig {
               CloudConfig.writeToDisk();
               notification = "Set speed of layer " + layerNumber + " to x"
                   + CloudConfig.cloudLayers[layer - 1].getCloudSpeed() + " speed.";
-            }
-          } catch (NumberFormatException e) {
-            player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
-            return;
-          } catch (IndexOutOfBoundsException e) {
-            player.sendMessage(Text.translatable("command.error.layerNumber").formatted(Formatting.RED), true);
-            return;
-          }
-
-          // + Notify player.
-          player.sendMessage(Text.of(notification), true);
-        }
-        case "skyEffects" -> {
-          // _ Print help if the value was -help.
-          if (value.equals("-help")) {
-            player.sendMessage(EanCommandsHelp.skyEffects(), true);
-            return;
-          }
-
-          // _ Validate value
-          if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
-            player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
-            return;
-          }
-
-          // + Set new config value.
-          String notification;
-          try {
-            boolean skyEffects = Boolean.parseBoolean(value);
-
-            if (layerNumber.equals("all")) {
-              for (CloudLayer cloudLayer : CloudConfig.cloudLayers) {
-                cloudLayer.setSkyEffects(skyEffects);
-              }
-              CloudConfig.writeToDisk();
-              notification = "Set sky effects of all layers to " + value + ".";
-            } else {
-              int layer = Integer.parseInt(layerNumber);
-              CloudConfig.cloudLayers[layer - 1].setSkyEffects(skyEffects);
-
-              CloudConfig.writeToDisk();
-              notification = "Set sky effects of layer " + layerNumber + " to "
-                  + CloudConfig.cloudLayers[layer - 1].isSkyEffects() + ".";
             }
           } catch (NumberFormatException e) {
             player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
@@ -806,7 +689,6 @@ public class CloudConfig {
     cloudLayers[2].setCloudType(CloudTypes.FAST);
     cloudLayers[2].setCloudSpeed(64.0F);
     cloudLayers[2].setCloudColor(0xffff00);
-    cloudLayers[2].setSkyEffects(false);
   }
 
   public static void cloudPreset_seaMist() {
@@ -820,7 +702,6 @@ public class CloudConfig {
     cloudLayers[1] = new CloudLayer();
     cloudLayers[1].setAltitude(63.0D);
     cloudLayers[1].setCloudType(CloudTypes.FANCY);
-    cloudLayers[1].setCloudThickness(1.0F);
     cloudLayers[1].setCloudOpacity(0.2F);
   }
 

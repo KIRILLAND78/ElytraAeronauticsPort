@@ -13,28 +13,32 @@ import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements SynchronousResourceReloader, AutoCloseable {
-  @Shadow public CloudRenderer cloudRenderer;
+  @Redirect(
+          method = "render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;)V",
+          at = @At(
+                  value = "INVOKE",
+                  target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;FIF)V"
+          )
+  )
+  private void redirectRenderClouds(WorldRenderer instance,
+                                    FrameGraphBuilder frameGraphBuilder,
+                                    Matrix4f positionMatrix,
+                                    Matrix4f projectionMatrix,
+                                    CloudRenderMode renderMode,
+                                    Vec3d cameraPos,
+                                    float ticks,
+                                    int color,
+                                    float cloudHeight) {
 
-  @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;FIF)V"))
-  private void ean_renderClouds(WorldRenderer instance,
-                                FrameGraphBuilder frameGraphBuilder,
-                                Matrix4f positionMatrix,
-                                Matrix4f projectionMatrix,
-                                CloudRenderMode renderMode,
-                                Vec3d cameraPos,
-                                float ticks,
-                                int color,
-                                float cloudHeight,
-                                Operation<Void> original)
-  {
-    if (CloudConfig.getOrCreateInstance().isUseEanClouds())//todo: use CloudRenderMode and cloudHeight (wtf is frameGraphBuilder)
-      EanCloudRenderBehaviour.ean_renderClouds2(instance, projectionMatrix, positionMatrix, ticks, cameraPos);
+    if (!CloudConfig.getOrCreateInstance().isUseEanClouds())
+      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, positionMatrix, projectionMatrix, renderMode, cameraPos, ticks, color, cloudHeight);
     else
-      original.call(instance, frameGraphBuilder, positionMatrix, projectionMatrix, renderMode, cameraPos, ticks, color, cloudHeight);
+    EanCloudRenderBehaviour.renderClouds(instance, frameGraphBuilder, positionMatrix, projectionMatrix, cameraPos, ticks, color);
   }
-
 }
