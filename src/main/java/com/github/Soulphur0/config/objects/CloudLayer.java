@@ -104,18 +104,6 @@ public class CloudLayer {
         this.shading = shading;
     }
 
-    public void setRenderAltitude(double renderAltitude) {
-        this.renderAltitude = renderAltitude;
-    }
-
-    public float getDisplacement() {
-        return displacement;
-    }
-
-    public void setDisplacement(float displacement) {
-        this.displacement = displacement;
-    }
-
     public boolean isWithinRenderDistance() {
         return withinRenderDistance;
     }
