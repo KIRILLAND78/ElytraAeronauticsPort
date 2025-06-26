@@ -17,7 +17,7 @@ public abstract class LivingEntityMixin extends Entity {
         super(entityType,world);
     }
 
-    @ModifyArg(method = "travelGliding()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(Lnet/minecraft/util/math/Vec3d;)V", ordinal = 0))
+    @ModifyArg(method = "travelGliding(Lnet/minecraft/util/math/Vec3d;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(Lnet/minecraft/util/math/Vec3d;)V", ordinal = 0))
     private Vec3d ean_modifyVelocity(Vec3d vector){
         Vec3d eanFlightVector = EanFlightBehaviour.ean_flightBehaviour(((LivingEntity)(Object)this));
         if (eanFlightVector != null)

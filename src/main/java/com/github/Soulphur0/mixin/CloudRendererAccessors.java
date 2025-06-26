@@ -1,7 +1,6 @@
 package com.github.Soulphur0.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.CloudRenderer;
@@ -16,6 +15,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(CloudRenderer.class)
 public interface CloudRendererAccessors {
     @Invoker("renderClouds")
-    public void renderCloudsInvoker(int color, CloudRenderMode cloudRenderMode, float cloudHeight, Matrix4f positionMatrix, Matrix4f projectionMatrix, Vec3d cameraPos, float ticks);
+    public void renderCloudsInvoker(int color, CloudRenderMode cloudRenderMode, float cloudHeight, Vec3d cameraPos, float ticks);
 
 }

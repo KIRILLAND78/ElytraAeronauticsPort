@@ -14,6 +14,7 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class EanCommands {
                 ServerPlayerEntity player = context.getSource().getPlayer();
                 Text message = Text.literal("\n")
                         .append(Text.literal("Type '/ean' and press TAB to see available options.\nWrite '-help' at the end of each option to see its usage and default values.\n\n").formatted(Formatting.GOLD))
-                        .append(Text.literal("You can read an in-depth guide about this command ").append(Text.literal("clicking here.\n").formatted(Formatting.UNDERLINE).styled((style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://github.com/Soulphur0/Soulphur-Mods-ResoucesAndChangelogs/blob/main/ElytraAeronautics/mod_resources/ean_command_guide.md"))))));
+                        .append(Text.literal("You can read an in-depth guide about this command ").append(Text.literal("clicking here.\n").formatted(Formatting.UNDERLINE).styled((style -> style.withClickEvent(new ClickEvent.OpenUrl(URI.create("https://github.com/Soulphur0/Soulphur-Mods-ResoucesAndChangelogs/blob/main/ElytraAeronautics/mod_resources/ean_command_guide.md")))))));
 
                 if (player != null)
                     player.sendMessage(message);

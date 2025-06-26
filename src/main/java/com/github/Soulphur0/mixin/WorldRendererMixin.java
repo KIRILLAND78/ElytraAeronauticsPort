@@ -20,16 +20,14 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin implements SynchronousResourceReloader, AutoCloseable {
   @Redirect(
-          method = "render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;)V",
+          method = "render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;)V",
           at = @At(
                   value = "INVOKE",
-                  target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;FIF)V"
+                  target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;FIF)V"
           )
   )
   private void redirectRenderClouds(WorldRenderer instance,
                                     FrameGraphBuilder frameGraphBuilder,
-                                    Matrix4f positionMatrix,
-                                    Matrix4f projectionMatrix,
                                     CloudRenderMode renderMode,
                                     Vec3d cameraPos,
                                     float ticks,
@@ -37,8 +35,8 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
                                     float cloudHeight) {
 
     if (!CloudConfig.getOrCreateInstance().isUseEanClouds())
-      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, positionMatrix, projectionMatrix, renderMode, cameraPos, ticks, color, cloudHeight);
+      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, renderMode, cameraPos, ticks, color, cloudHeight);
     else
-    EanCloudRenderBehaviour.renderClouds(instance, frameGraphBuilder, positionMatrix, projectionMatrix, cameraPos, ticks, color);
+    EanCloudRenderBehaviour.renderClouds(instance, frameGraphBuilder, cameraPos, ticks, color);
   }
 }

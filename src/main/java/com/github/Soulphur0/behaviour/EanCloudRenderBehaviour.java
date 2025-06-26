@@ -5,13 +5,10 @@ import com.github.Soulphur0.config.objects.CloudLayer;
 import com.github.Soulphur0.config.singletons.CloudConfig;
 import com.github.Soulphur0.mixin.CloudRendererAccessors;
 import com.github.Soulphur0.mixin.WorldRendererAccessors;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.impl.client.indigo.renderer.helper.ColorHelper;
-import net.minecraft.client.gl.ShaderProgram;
-import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.option.CloudRenderMode;
 import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
@@ -27,8 +24,6 @@ public class EanCloudRenderBehaviour {
 
   public static void renderClouds(WorldRenderer instance,
                                   FrameGraphBuilder frameGraphBuilder,
-                                  Matrix4f positionMatrix,
-                                  Matrix4f projectionMatrix,
                                   Vec3d cameraPos,
                                   float ticks,
                                   int timeColor) {
@@ -51,10 +46,28 @@ public class EanCloudRenderBehaviour {
       }
       var usedColor = layer.getCloudColor();
       if (layer.isShading()){
-        usedColor = ColorHelper.multiplyColor(layer.getCloudColor(), timeColor);
+        // usedColor = ColorHelper.multiplyColor(layer.getCloudColor(), timeColor);
+        // why is it declared unstable now?
+        usedColor = multiplyColors(layer.getCloudColor(), timeColor);
       }
 
-      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, positionMatrix, projectionMatrix, render, cameraPos, ticks*layer.getCloudSpeed(), usedColor, (float) layer.getAltitude());
+      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, render, cameraPos, ticks*layer.getCloudSpeed(), usedColor, (float) layer.getAltitude());
     }
+  }
+  public static int multiplyColors(int color1, int color2) {
+    int r1 = (color1 >> 16) & 0xFF;
+    int g1 = (color1 >> 8) & 0xFF;
+    int b1 = color1 & 0xFF;
+
+    int r2 = (color2 >> 16) & 0xFF;
+    int g2 = (color2 >> 8) & 0xFF;
+    int b2 = color2 & 0xFF;
+
+    int a = (color1 >> 24) & 0xFF;
+    int r = (r1 * r2) / 255;
+    int g = (g1 * g2) / 255;
+    int b = (b1 * b2) / 255;
+
+    return (a << 24) | (r << 16) | (g << 8) | b;
   }
 }
