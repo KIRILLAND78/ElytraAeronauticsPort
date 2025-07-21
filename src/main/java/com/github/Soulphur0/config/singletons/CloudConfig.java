@@ -64,7 +64,6 @@ public class CloudConfig {
           }
 
           // _ Validate value
-          if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
             player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
             return;
           }
@@ -194,7 +193,6 @@ public class CloudConfig {
               notification = "Set cloud type of layer " + layerNumber + " to "
                   + CloudConfig.cloudLayers[layer - 1].getCloudType();
             }
-
           } catch (IllegalArgumentException e) {
             player.sendMessage(Text.translatable("command.error.value").formatted(Formatting.RED), true);
             return;

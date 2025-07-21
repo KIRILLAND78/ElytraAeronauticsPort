@@ -30,6 +30,7 @@ public class CloudLayer {
     private float cloudOpacity = 0.8F;
     @Expose
     private boolean shading = true;
+
     private boolean withinRenderDistance;
     private boolean withinLodRenderDistance;
     private float translationX;
