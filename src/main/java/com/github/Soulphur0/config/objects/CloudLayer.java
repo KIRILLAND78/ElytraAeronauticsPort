@@ -19,28 +19,18 @@ public class CloudLayer {
     @Expose
     private float verticalRenderDistance = 1000.0F;
     @Expose
-    private int horizontalRenderDistance = 15;
-    @Expose
     private float lodRenderDistance = 150.0F;
 
     // ; Cloud style settings
     @Expose
     private float cloudSpeed = 1.0F;
     @Expose
-    private float cloudThickness = 4.0F;
-    @Expose
     private int cloudColor = 0xffffff;
     @Expose
     private float cloudOpacity = 0.8F;
     @Expose
     private boolean shading = true;
-    @Expose
-    private boolean skyEffects = true;
 
-    // = Contextual attributes for rendering
-    private BuiltBuffer vertexGeometry; // The geometry of the processed cloud layer to later render.
-    private double renderAltitude; // The 'p' parameter of the original rendering code, it stores the exact render altitude. Which is the remainder of cloud render altitude when measured in cloud thickness.
-    private float displacement;
     private boolean withinRenderDistance;
     private boolean withinLodRenderDistance;
     private float translationX;
@@ -75,14 +65,6 @@ public class CloudLayer {
         this.verticalRenderDistance = verticalRenderDistance;
     }
 
-    public int getHorizontalRenderDistance() {
-        return horizontalRenderDistance;
-    }
-
-    public void setHorizontalRenderDistance(int horizontalRenderDistance) {
-        this.horizontalRenderDistance = horizontalRenderDistance;
-    }
-
     public float getLodRenderDistance() {
         return lodRenderDistance;
     }
@@ -97,14 +79,6 @@ public class CloudLayer {
 
     public void setCloudSpeed(float cloudSpeed) {
         this.cloudSpeed = cloudSpeed;
-    }
-
-    public float getCloudThickness() {
-        return cloudThickness;
-    }
-
-    public void setCloudThickness(float cloudThickness) {
-        this.cloudThickness = cloudThickness;
     }
 
     public int getCloudColor() {
@@ -129,30 +103,6 @@ public class CloudLayer {
 
     public void setShading(boolean shading) {
         this.shading = shading;
-    }
-
-    public BuiltBuffer getVertexGeometry() {
-        return vertexGeometry;
-    }
-
-    public void setVertexGeometry(BuiltBuffer vertexGeometry) {
-        this.vertexGeometry = vertexGeometry;
-    }
-
-    public double getRenderAltitude() {
-        return renderAltitude;
-    }
-
-    public void setRenderAltitude(double renderAltitude) {
-        this.renderAltitude = renderAltitude;
-    }
-
-    public float getDisplacement() {
-        return displacement;
-    }
-
-    public void setDisplacement(float displacement) {
-        this.displacement = displacement;
     }
 
     public boolean isWithinRenderDistance() {
@@ -185,13 +135,5 @@ public class CloudLayer {
 
     public void setTranslationZ(float translationZ) {
         this.translationZ = translationZ;
-    }
-
-    public boolean isSkyEffects() {
-        return skyEffects;
-    }
-
-    public void setSkyEffects(boolean skyEffects) {
-        this.skyEffects = skyEffects;
     }
 }
