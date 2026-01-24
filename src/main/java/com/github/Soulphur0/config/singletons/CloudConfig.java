@@ -64,6 +64,7 @@ public class CloudConfig {
           }
 
           // _ Validate value
+          if (!(value.equalsIgnoreCase("true") || value.equalsIgnoreCase("false"))) {
             player.sendMessage(Text.translatable("command.error.value.boolean").formatted(Formatting.RED), true);
             return;
           }
