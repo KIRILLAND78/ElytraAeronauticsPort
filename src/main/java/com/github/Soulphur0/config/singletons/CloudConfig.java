@@ -628,43 +628,43 @@ public class CloudConfig {
     cloudLayers[0].setAltitude(192.0D);
     cloudLayers[0].setCloudType(CloudTypes.FAST);
     cloudLayers[0].setCloudSpeed(1.0F);
-    cloudLayers[0].setCloudColor(0xff0000);
+    cloudLayers[0].setCloudColor(0xFFff0000);
 
     cloudLayers[1] = new CloudLayer();
     cloudLayers[1].setAltitude(196.0D);
     cloudLayers[1].setCloudType(CloudTypes.FAST);
     cloudLayers[1].setCloudSpeed(2.0F);
-    cloudLayers[1].setCloudColor(0xffa500);
+    cloudLayers[1].setCloudColor(0xFFffa500);
 
     cloudLayers[2] = new CloudLayer();
     cloudLayers[2].setAltitude(200.0D);
     cloudLayers[2].setCloudType(CloudTypes.FAST);
     cloudLayers[2].setCloudSpeed(3.0F);
-    cloudLayers[2].setCloudColor(0xffff00);
+    cloudLayers[2].setCloudColor(0xFFffff00);
 
     cloudLayers[3] = new CloudLayer();
     cloudLayers[3].setAltitude(204.0D);
     cloudLayers[3].setCloudType(CloudTypes.FAST);
     cloudLayers[3].setCloudSpeed(4.0F);
-    cloudLayers[3].setCloudColor(0x008000);
+    cloudLayers[3].setCloudColor(0xFF008000);
 
     cloudLayers[4] = new CloudLayer();
     cloudLayers[4].setAltitude(208.0D);
     cloudLayers[4].setCloudType(CloudTypes.FAST);
     cloudLayers[4].setCloudSpeed(5.0F);
-    cloudLayers[4].setCloudColor(0x0000ff);
+    cloudLayers[4].setCloudColor(0xFF0000ff);
 
     cloudLayers[5] = new CloudLayer();
     cloudLayers[5].setAltitude(212.0D);
     cloudLayers[5].setCloudType(CloudTypes.FAST);
     cloudLayers[5].setCloudSpeed(6.0F);
-    cloudLayers[5].setCloudColor(0x4b0082);
+    cloudLayers[5].setCloudColor(0xFF4b0082);
 
     cloudLayers[6] = new CloudLayer();
     cloudLayers[6].setAltitude(216.0D);
     cloudLayers[6].setCloudType(CloudTypes.FAST);
     cloudLayers[6].setCloudSpeed(7.0F);
-    cloudLayers[6].setCloudColor(0xee82ee);
+    cloudLayers[6].setCloudColor(0xFFee82ee);
   }
 
   public static void cloudPreset_skyHighway() {
@@ -675,19 +675,19 @@ public class CloudConfig {
     cloudLayers[0].setAltitude(200.0D);
     cloudLayers[0].setCloudType(CloudTypes.FANCY);
     cloudLayers[0].setCloudSpeed(8.0F);
-    cloudLayers[0].setCloudColor(0x555555);
+    cloudLayers[0].setCloudColor(0xFF555555);
 
     cloudLayers[1] = new CloudLayer();
     cloudLayers[1].setAltitude(220.0D);
     cloudLayers[1].setCloudType(CloudTypes.FAST);
     cloudLayers[1].setCloudSpeed(8.0F);
-    cloudLayers[1].setCloudColor(0x555555);
+    cloudLayers[1].setCloudColor(0xFF555555);
 
     cloudLayers[2] = new CloudLayer();
     cloudLayers[2].setAltitude(250.0D);
     cloudLayers[2].setCloudType(CloudTypes.FAST);
     cloudLayers[2].setCloudSpeed(64.0F);
-    cloudLayers[2].setCloudColor(0xffff00);
+    cloudLayers[2].setCloudColor(0xFFffff00);
   }
 
   public static void cloudPreset_seaMist() {

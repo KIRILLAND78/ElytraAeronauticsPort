@@ -10,5 +10,5 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(WorldRenderer.class)
 public interface WorldRendererAccessors {
     @Invoker("renderClouds")
-    void rсInvoker(FrameGraphBuilder frameGraphBuilder, CloudRenderMode renderMode, Vec3d cameraPos, float ticks, int color, float cloudHeight);
+    void rсInvoker(FrameGraphBuilder frameGraphBuilder, CloudRenderMode renderMode, Vec3d cameraPos, long susTicks, float ticks, int color, float cloudHeight);
 }

@@ -25,7 +25,7 @@ public class CloudLayer {
     @Expose
     private float cloudSpeed = 1.0F;
     @Expose
-    private int cloudColor = 0xffffff;
+    private int cloudColor = 0xFFffffff;  // AARRGGBB format - FF for opaque white
     @Expose
     private float cloudOpacity = 0.8F;
     @Expose

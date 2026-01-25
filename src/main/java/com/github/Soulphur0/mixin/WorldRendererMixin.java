@@ -26,31 +26,38 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
   private int elytra_lastLayerCount = 0;
 
   @Redirect(
-          method = "render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Vector4f;Z)V",
+          method = "render(Lnet/minecraft/client/util/ObjectAllocator;Lnet/minecraft/client/render/RenderTickCounter;ZLnet/minecraft/client/render/Camera;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;Lcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Vector4f;Z)V",
           at = @At(
                   value = "INVOKE",
-                  target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;FIF)V"
+                  target = "Lnet/minecraft/client/render/WorldRenderer;renderClouds(Lnet/minecraft/client/render/FrameGraphBuilder;Lnet/minecraft/client/option/CloudRenderMode;Lnet/minecraft/util/math/Vec3d;JFIF)V"
           )
   )
   private void redirectRenderClouds(WorldRenderer instance,
                                     FrameGraphBuilder frameGraphBuilder,
                                     CloudRenderMode renderMode,
                                     Vec3d cameraPos,
+                                    long susTicks,
                                     float ticks,
                                     int color,
                                     float cloudHeight) {
 
     if (!CloudConfig.getOrCreateInstance().isUseEanClouds()) {
-      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, renderMode, cameraPos, ticks, color, cloudHeight);
+      ((WorldRendererAccessors) instance).rсInvoker(frameGraphBuilder, renderMode, cameraPos, susTicks, ticks, color, cloudHeight);
       return;
     }
 
     CloudConfig config = CloudConfig.getOrCreateInstance();
     int numLayers = config.getNumberOfLayers();
 
+    if (CloudConfig.cloudLayers == null || CloudConfig.cloudLayers.length == 0) {
+      return;
+    }
+
     // Get cloud cells from main renderer
     CloudRenderer.CloudCells cells = ((CloudRendererAccessors) cloudRenderer).getCells();
-    if (cells == null) return;
+    if (cells == null) {
+      return;
+    }
 
     // Initialize layer renderers if needed
     if (elytra_layerRenderers == null || elytra_lastLayerCount != numLayers) {
@@ -68,7 +75,12 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
 
     // Render each layer with its own CloudRenderer and frame pass
     for (int layerNum = 0; layerNum < numLayers; layerNum++) {
+
       CloudLayer layer = CloudConfig.cloudLayers[layerNum];
+
+      if (layer == null) {
+        continue;
+      }
 
       layer.setWithinRenderDistance(Math.abs(layer.getAltitude() - cameraPos.y) <= layer.getVerticalRenderDistance());
       layer.setWithinLodRenderDistance(Math.abs(layer.getAltitude() - cameraPos.y) <= layer.getLodRenderDistance());
@@ -80,12 +92,29 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
       }
 
       int layerColor = layer.getCloudColor();
+
+      if (((layerColor >> 24) & 0xFF) == 0) {
+        layerColor = layerColor | 0xAA000000;
+      }
+
       if (layer.isShading()) {
-        layerColor = elytra_multiplyColors(layer.getCloudColor(), color);
+        layerColor = elytra_multiplyColors(layerColor, color);
       }
 
       float layerAltitude = (float) layer.getAltitude();
-      float layerTicks = ticks * layer.getCloudSpeed();
+
+      double susScaled = (double)susTicks * layer.getCloudSpeed();
+      double ticksScaled = (double)ticks * layer.getCloudSpeed();
+
+      long susWhole = (long)susScaled;
+      double susFrac = susScaled - susWhole;
+
+      double combinedFrac = ticksScaled + susFrac;
+      long carryOver = (long)combinedFrac;
+
+      long layerTicksSus = susWhole + carryOver;
+      float layerTicks = (float)(combinedFrac - carryOver);
+
 
       // Get this layer's dedicated renderer
       CloudRenderer layerRenderer = elytra_layerRenderers[layerNum];
@@ -107,7 +136,7 @@ public abstract class WorldRendererMixin implements SynchronousResourceReloader,
       final CloudRenderer finalRenderer = layerRenderer;
 
       framePass.setRenderer(() -> {
-        finalRenderer.renderClouds(finalColor, finalMode, finalAltitude, cameraPos, finalTicks);
+        finalRenderer.renderClouds(finalColor, finalMode, finalAltitude, cameraPos, layerTicksSus, finalTicks);
       });
     }
   }

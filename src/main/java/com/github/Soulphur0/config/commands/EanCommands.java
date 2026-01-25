@@ -9,6 +9,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.CommandSource;
+import net.minecraft.command.permission.Permission;
+import net.minecraft.command.permission.PermissionLevel;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.Text;
@@ -141,7 +143,7 @@ public class EanCommands {
                             String value = StringArgumentType.getString(context, "arg2");
                             String message = "";
 
-                            if (configMode.equals("FlightConfig") && (context.getSource().hasPermissionLevel(4) || context.getSource().getServer().isSingleplayer())){
+                            if (configMode.equals("FlightConfig") && (context.getSource().getPermissions().hasPermission(new Permission.Level(PermissionLevel.ADMINS)) || context.getSource().getServer().isSingleplayer())){
                                 message = switch (arg1) {
                                     case "altitudeDeterminesSpeed" -> setAltitudeDeterminesSpeed(value);
                                     case "minSpeed" -> setMinSpeed(value);
@@ -153,7 +155,7 @@ public class EanCommands {
                                     case "realignRate" -> setRealignRate(value);
                                     default -> throw new SimpleCommandExceptionType(Text.translatable("command.error.value")).create();
                                 };
-                            } else if (configMode.equals("FlightConfig") && !context.getSource().hasPermissionLevel(4)){
+                            } else if (configMode.equals("FlightConfig") && !context.getSource().getPermissions().hasPermission(new Permission.Level(PermissionLevel.ADMINS))){
                                 context.getSource().sendMessage(Text.literal("You require to be an operator in order to change elytra flight settings.").formatted(Formatting.RED));
                             } else if (configMode.equals("CloudConfig")) {
                                 switch (arg1) {
