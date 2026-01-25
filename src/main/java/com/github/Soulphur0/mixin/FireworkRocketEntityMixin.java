@@ -24,7 +24,7 @@ public class FireworkRocketEntityMixin   {
 
         if (configInstance.isAltitudeDeterminesSpeed()){
             // $ Get movement and position values from the shooter
-            Vec3d positionVector = shooter.getPos();
+            Vec3d positionVector = shooter.getEntityPos();
             Vec3d shooterRotation = shooter.getRotationVector();
             Vec3d shooterVelocity = shooter.getVelocity();
             double shooterAltitude = positionVector.y;

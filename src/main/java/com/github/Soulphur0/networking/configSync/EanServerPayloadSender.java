@@ -20,7 +20,7 @@ public class EanServerPayloadSender {
   // ? Sync all clients' config with the server.
   // ¿ Used when the server config is changed by an operator.
   public static void syncAllClientsConfigWithServer(PlayerEntity user) {
-    if (user.getWorld().isClient())
+    if (user.getEntityWorld().isClient())
       return;
 
     // + Write server settings into custom packet.
@@ -30,8 +30,8 @@ public class EanServerPayloadSender {
 
     // + Send sync order to all connected clients.
     ServerPlayNetworking.send((ServerPlayerEntity) user, new EanConfigSyncPayload(new EanServerSettings()));
-    if (user.getServer() != null) {
-      for (ServerPlayerEntity serverPlayer : PlayerLookup.all(user.getServer())) {
+    if (user.getEntityWorld().getServer() != null) {
+      for (ServerPlayerEntity serverPlayer : PlayerLookup.all(user.getEntityWorld().getServer())) {
         ServerPlayNetworking.send(serverPlayer, new EanConfigSyncPayload(new EanServerSettings()));
       }
     }
@@ -40,7 +40,7 @@ public class EanServerPayloadSender {
   // ? Sync a single client's config with the server.
   // ¿ Used when a player joins the server.
   public static void syncClientConfigWithServer(PlayerEntity user) {
-    if (user.getWorld().isClient())
+    if (user.getEntityWorld().isClient())
       return;
 
     // + Write server settings into custom packet.
@@ -59,7 +59,7 @@ public class EanServerPayloadSender {
   // need to get one value read, while server config needs all values to be read
   // at once when joining a server.
   public static void sendClientConfig(ServerPlayerEntity user, EanConfigChange setting) {
-    if (user.getWorld().isClient())
+    if (user.getEntityWorld().isClient())
       return;
 
     // + Write server settings into custom packet.
