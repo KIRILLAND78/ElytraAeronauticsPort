@@ -20,7 +20,7 @@ public class EanFlightBehaviour {
     private static Vec3d ean_loadAndSyncFlightConfiguration(LivingEntity player){
 
         // . Order the client to sync settings with the server if the config has changed.
-        if (!player.getWorld().isClient()) {
+        if (!player.getEntityWorld().isClient()) {
             if (EanServerSettings.settingsChanged){
                 EanServerPayloadSender.syncAllClientsConfigWithServer((PlayerEntity) player);
                 EanServerSettings.settingsChanged = false;
@@ -59,7 +59,7 @@ public class EanFlightBehaviour {
             return null;
 
         // + Get player altitude
-        Vec3d positionVector = player.getPos();
+        Vec3d positionVector = player.getEntityPos();
         double playerAltitude = positionVector.y;
 
         // % Calculate player speed based on altitude and return
